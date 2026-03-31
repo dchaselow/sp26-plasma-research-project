@@ -16,7 +16,8 @@ def rand_from_dist(f, x_min = 0, x_max = 1, res: int = 100):
     n = int(width * res)
     dx = 1/res
     x_list = list(np.linspace(x_min, x_max, n))
-    sums = sum_dist([f(x_list[i])*dx for i in range(len(x_list))]) # numerical integration basically
+    f_list = [f(x) for x in x_list]
+    sums = sum_dist([w*dx for w in f_list]) # numerical integration basically
     for i in range(len(sums)):
         if r <= sums[i] / sums[-1]:
             return x_list[i]
