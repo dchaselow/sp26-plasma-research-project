@@ -10,7 +10,7 @@ def sum_dist(lst: list):
     return ret_list
 
 
-def rand_from_dist(f, x_min = 0, x_max = 1, res: int = 100):
+def rand_from_dist(f, x_min = 0, x_max = 1, res: int = 100, perturb: bool = False):
     r = rand.random()
     width = (x_max-x_min)
     n = int(width * res)
@@ -20,8 +20,11 @@ def rand_from_dist(f, x_min = 0, x_max = 1, res: int = 100):
     sums = sum_dist([w*dx for w in f_list]) # numerical integration basically
     for i in range(len(sums)):
         if r <= sums[i] / sums[-1]:
-            return x_list[i]
-    print("OUT OF RANGE: ", r, sums[i]/width)
+            if perturb:
+                return x_list[i] + rand.uniform(-1/(2*res), 1/(2*res))
+            else:
+                return x_list[i]
+    #print("OUT OF RANGE: ", r)
     raise Exception("Base random doesn't fall on normalized distribution map. Is the input function defined over your whole domain?")
 
 def rfd_array(f, n: int = 1000, x_range: list = [-1, 1]):
