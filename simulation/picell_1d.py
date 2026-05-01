@@ -507,7 +507,9 @@ def step_vv(frame, plot = True): # All code required to plot and advance one fra
 	K_arr_e[frame]		= 	comp_K(v_arr[e_mask], m_arr[e_mask])
 	K_arr_i[frame]		= 	comp_K(v_arr[i_mask], m_arr[i_mask])
 	U_arr[frame]		= 	comp_U(E_arr)
-	E_signal_arr[frame]	=	E_arr[field_res // 2]
+	#E_signal_arr[frame]	=	E_arr[field_res // 2]
+	E_k = np.fft.rfft(E_arr)
+	E_signal_arr[frame] = np.real(E_k[x_pert_mode]) #trying to extract better v_th frequencies via fast Fourier transform
 	if plot:
 		plot_frame(frame, window_res)
 	if fixed_ions:
